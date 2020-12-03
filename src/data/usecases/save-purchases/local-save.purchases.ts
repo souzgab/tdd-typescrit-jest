@@ -7,6 +7,4 @@ export class LocalSavePurchases implements SavePurchases{
         this.cacheStore.delete('purchases')
         this.cacheStore.insert('purchases', purchases)
     }
-
-
 }
