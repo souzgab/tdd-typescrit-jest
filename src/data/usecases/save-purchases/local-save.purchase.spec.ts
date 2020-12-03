@@ -25,12 +25,12 @@ describe('LocalSavePurchases', () => {
         expect(cacheStore.deleteKey).toBe('purchases')
     })
     
-    test('Should not insert new cache if delete fails', () => {
+    test('Should not insert new cache if delete fails', async () => {
         const {cacheStore, sut} = makeSut()
         cacheStore.helperSimulateDeleteError();
         const promise = sut.save(mockPurchases())
         expect(cacheStore.messages).toEqual([CacheStoreSpy.Message.delete])
-        expect(promise).rejects.toThrow()
+        await expect(promise).rejects.toThrow()
     })  
 
     test('Should insert new cache if delete succeeds', async () => {
