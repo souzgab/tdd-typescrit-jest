@@ -13,12 +13,12 @@ const makeSut = (): SutTypes => {
 }
 
 describe('LocalSavePurchases', () => {
-    test('Should not delete or insertt cache on sut.init', () => {
+    test('Should not delete or insert cache on sut.init', () => {
         const {cacheStore} = makeSut()
         expect(cacheStore.messages).toEqual([])
     });
 
-    test('Should not delete cache on sut.save', async () => {
+    test('Should not delete old cache on sut.save', async () => {
         const {cacheStore, sut} = makeSut()
         await sut.save(mockPurchases())
         expect(cacheStore.messages).toEqual([CacheStoreSpy.Message.delete, CacheStoreSpy.Message.insert])
@@ -44,8 +44,9 @@ describe('LocalSavePurchases', () => {
     
     test('Should throw if insert throws', async () => {
         const {cacheStore, sut} = makeSut();
-        cacheStore.helperSimulateDeleteError();
+        cacheStore.helperSimulateInsertError();
         const promise = sut.save(mockPurchases());
-        expect(promise).rejects.toThrow()
+        expect(cacheStore.messages).toEqual([CacheStoreSpy.Message.delete, CacheStoreSpy.Message.insert])
+        await expect(promise).rejects.toThrow()
     })  
 });
