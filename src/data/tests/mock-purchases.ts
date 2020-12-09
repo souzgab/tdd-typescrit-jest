@@ -1,7 +1,7 @@
-import { SavePurchases } from '@/domain/usecases';
+import { PurchaseModel } from "@/domain/models";
 import faker from 'faker'
 
-export const mockPurchases = (): Array<SavePurchases.Params> => [{
+export const mockPurchases = (): Array<PurchaseModel.Params> => [{
     id: faker.random.uuid(),
     date: faker.date.recent(),
     value: faker.random.number()
